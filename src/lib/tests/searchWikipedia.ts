@@ -34,8 +34,8 @@ export async function run(page: Page, params: {}) {
     await artificialIntelligenceLink.click();
 
     // STEP: Click on "View history"
-    const viewHistoryTab = page.getByRole('link', { name: 'View history' });
-    await viewHistoryTab.click();
+    const viewHistoryTab = page.locator('#ca-history').getByRole('link', { name: 'View history' });
+    await viewHistoryTab.click();    
 
     // STEP: Confirm the history page loaded
     await expect(page.locator('h1')).toContainText('Revision history');
@@ -47,7 +47,7 @@ export async function run(page: Page, params: {}) {
     const actualUser = (await latestEditUser.textContent())?.trim();
 
     if (actualUser !== 'Worstbull') {
-    throw new Error(` Expected editor "Worstbull", but found "${actualUser}"`);
+    throw Error(` Expected editor "Worstbull", but found "${actualUser}"`);
     }
 
     console.log(` Latest edit is by: ${actualUser}`);
