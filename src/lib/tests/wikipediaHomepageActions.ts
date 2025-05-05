@@ -22,6 +22,9 @@ export async function run(page: Page, params: {}) {
     const articleCount = parseInt(countText?.replace(/,/g, '') || '0', 10);
     console.log(` English article count: ${articleCount}`);
     expect(articleCount).toBeLessThan(7000000);
+    if (articleCount >= 7000000) {
+      throw new Error(`Article count exceeded limit: ${articleCount}`);
+    }    
 
       // STEP: Store font size before changes (default size)
     const body = page.locator('#mp-welcome');
