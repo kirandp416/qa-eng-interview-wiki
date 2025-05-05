@@ -80,3 +80,10 @@ npm run test
 ## Need Help?
 
 If you run into any technical issues during the assessment, do your best to unblock yourself. If you really cannot proceed or are done with the task, email megan@ranger.net.
+
+
+### Link for the Demo Video
+
+https://www.loom.com/share/97741301b5ab43789946dcffb1ed07d2?sid=2fe034ec-2c23-44f9-99a5-e476b1518aac
+
+### 
