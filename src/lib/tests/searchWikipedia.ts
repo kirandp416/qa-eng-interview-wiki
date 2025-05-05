@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test';
+import { Page, expect, test } from '@playwright/test';
 
 /**
  * This test was generated using Ranger's test recording tool. The test is supposed to:
@@ -25,10 +25,34 @@ export async function run(page: Page, params: {}) {
         name: 'Search Wikipedia',
     });
     await searchInputField.fill('artificial');
+    await page.keyboard.press('Enter');
 
     /** STEP: Click the 'Artificial Intelligence' link in the search suggestions */
     const artificialIntelligenceLink = page.getByRole('link', {
         name: 'Artificial intelligence',
     });
     await artificialIntelligenceLink.click();
+
+    // STEP: Click on "View history"
+    const viewHistoryTab = page.getByRole('link', { name: 'View history' });
+    await viewHistoryTab.click();
+
+    // STEP: Confirm the history page loaded
+    await expect(page.locator('h1')).toContainText('Revision history');
+
+    // STEP: Get all username elements
+    const latestEditUser = page.locator('#pagehistory li .history-user a').first();
+    await expect(latestEditUser).toBeVisible();
+
+    const actualUser = (await latestEditUser.textContent())?.trim();
+
+    if (actualUser !== 'Worstbull') {
+    throw new Error(` Expected editor "Worstbull", but found "${actualUser}"`);
+    }
+
+    console.log(` Latest edit is by: ${actualUser}`);
+
+
 }
+
+
