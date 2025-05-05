@@ -1,5 +1,6 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 
@@ -18,6 +19,17 @@ test('Sign in to Wikipedia', async ({ page }) => {
     if (!wikipediaUsername || !wikipediaPassword) {
         throw new Error(`Need a username and password to sign in!`);
     }
+// Go to the Wikipedia login page
+await page.goto('https://en.wikipedia.org/w/index.php?title=Special:UserLogin');
 
-    // await page.context().storageState({ path: authFile });
+// Fill in login form
+await page.fill('#wpName1', wikipediaUsername);
+await page.fill('#wpPassword1', wikipediaPassword);
+await page.click('#wpLoginAttempt');
+
+// Verify login was successful
+await expect(page.locator('#pt-userpage')).toContainText(wikipediaUsername);
+
+// Save login session state
+await page.context().storageState({ path: path.resolve(authFile) });
 });
